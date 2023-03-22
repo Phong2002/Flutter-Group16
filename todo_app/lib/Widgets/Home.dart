@@ -6,6 +6,8 @@ import 'package:todo_app/Widgets/CreateNewTodo.dart';
 import '../Provider/TodoListProvider.dart';
 import 'Todo.dart';
 
+
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -33,6 +35,40 @@ class _MyHomePageState extends State<MyHomePage> {
       title = "Quản lý công việc";
     }
     return title;
+  }
+
+  Future<void> _showDialog(String title,String content,Function callback) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(content),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Có',style: TextStyle(fontSize: 18.0),),
+              onPressed: () {
+                callback();
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Không',style: TextStyle(fontSize: 18.0),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -151,7 +187,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   tooltip: 'Xóa',
                   icon: const Icon(CupertinoIcons.trash),
                   onPressed: () {
-                    context.read<TodoListProvider>().removeTodosSelected();
+
+                    _showDialog("Xóa công việc"
+                        ,"Bạn có chắc chắn muốn xóa ${Provider.of<TodoListProvider>(context, listen: false).listSelected.length} mục không",
+                        ()=>{Provider.of<TodoListProvider>(context, listen: false).removeTodosSelected()}
+                    );
                   },
                 ),
                 IconButton(
