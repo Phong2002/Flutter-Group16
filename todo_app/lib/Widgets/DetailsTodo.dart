@@ -66,6 +66,44 @@ class DetailsTodo extends StatefulWidget {
                    context.read<TodoListProvider>().update(widget.todo);
                  },
                  icon: Icon(Icons.done))
+
+           else
+             PopupMenuButton(
+                 itemBuilder: (context){
+                   return [
+                     const PopupMenuItem<int>(
+                       value: 0,
+                       child: Text("Xóa"),
+                     ),
+                     if(widget.todo.status)
+                       const PopupMenuItem<int>(
+                         value: 1,
+                         child: Text("Chưa hoàn thành"),
+                       ),
+                     if(!widget.todo.status)
+                       const PopupMenuItem<int>(
+                         value: 2,
+                         child: Text("Hoàn thành"),
+                       ),
+                   ];
+                 },
+                 onSelected:(value){
+                   if(value == 0){
+                     Provider.of<TodoListProvider>(context, listen: false).remove(widget.todo.todoId);
+                     Navigator.pop(context);
+                   }else if(value == 1){
+                     setState(() {
+                       widget.todo.status=false;
+                     });
+                     Provider.of<TodoListProvider>(context, listen: false).update(widget.todo);
+                   }else if(value == 2){
+                     setState(() {
+                       widget.todo.status=true;
+                     });
+                     Provider.of<TodoListProvider>(context, listen: false).update(widget.todo);
+                   }
+                 }
+             ),
          ],
          title: Text("Chi tiết công việc"),
          centerTitle: true,

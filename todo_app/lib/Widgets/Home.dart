@@ -37,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return title;
   }
 
-  Future<void> _showDialog(String title,String content,Function callback) async {
+  Future<void> _showMyDialog(String title,String content,Function callback) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -53,14 +53,14 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Có',style: TextStyle(fontSize: 18.0),),
+              child: const Text('Có'),
               onPressed: () {
                 callback();
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Không',style: TextStyle(fontSize: 18.0),),
+              child: const Text('Không'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -188,7 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: const Icon(CupertinoIcons.trash),
                   onPressed: () {
 
-                    _showDialog("Xóa công việc"
+                    _showMyDialog("Xóa công việc"
                         ,"Bạn có chắc chắn muốn xóa ${Provider.of<TodoListProvider>(context, listen: false).listSelected.length} mục không",
                         ()=>{Provider.of<TodoListProvider>(context, listen: false).removeTodosSelected()}
                     );
