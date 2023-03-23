@@ -52,6 +52,11 @@ class TodoListProvider extends ChangeNotifier {
               .indexWhere((element) => element.todoId == todoIdSelected)]
           .status = true;
     });
+    listSelected.forEach((todoIdSelected) {
+      todoList[todoList
+          .indexWhere((element) => element.todoId == todoIdSelected)]
+          .actualCompletionTime = DateTime.now();
+    });
     notifyListeners();
   }
 
@@ -60,7 +65,7 @@ class TodoListProvider extends ChangeNotifier {
     DateTime dateCreated = DateTime.now();
     bool status = false;
     Todo todo =
-        Todo(todoId, title, content, dateCreated, expectedCompletion, status);
+        Todo(todoId, title, content, dateCreated, expectedCompletion, status,dateCreated);
     _todoList.add(todo);
     notifyListeners();
   }
@@ -87,7 +92,6 @@ class TodoListProvider extends ChangeNotifier {
   }
 
   List<Todo> get todoList => _todoList;
-
   set todoList(List<Todo> value) {
     _todoList = value;
   }

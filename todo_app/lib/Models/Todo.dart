@@ -5,9 +5,10 @@ class Todo {
    String title;
    String content;
    DateTime dateCreated;
-   DateTime expectedCompletion;
+   DateTime estimatedCompletionTime;
+   DateTime actualCompletionTime;
    bool status;
 
    Todo(this.todoId, this.title, this.content, this.dateCreated,
-      this.expectedCompletion, this.status);
+      this.estimatedCompletionTime, this.status,this.actualCompletionTime);
 }
