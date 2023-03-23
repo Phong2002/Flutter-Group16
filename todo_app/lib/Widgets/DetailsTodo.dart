@@ -61,8 +61,8 @@ class _DetailsTodoState extends State<DetailsTodo> {
           ],
         ),
       );
-    } else if ((todo.estimatedCompletionTime.compareTo(DateTime.now()) < 0 &&
-        todo.status)) {
+    }else if(((todo.estimatedCompletionTime.compareTo(DateTime.now()) < 0
+    &&(!DateUtils.isSameDay(todo.estimatedCompletionTime, todo.actualCompletionTime)))&& todo.status)) {
       return Container(
         child: Row(
           children: const [
@@ -75,17 +75,17 @@ class _DetailsTodoState extends State<DetailsTodo> {
         ),
       );
     } else if (((todo.estimatedCompletionTime
-                    .compareTo(todo.actualCompletionTime) >
-                0 ||
-            (!DateUtils.isSameDay(
-                todo.estimatedCompletionTime, todo.actualCompletionTime))) &&
-        todo.status)) {
+        .compareTo(todo.actualCompletionTime) >
+        0 ||
+        (DateUtils.isSameDay(
+            todo.estimatedCompletionTime, todo.actualCompletionTime))) &&
+        todo.status))  {
       return Container(
         child: Row(
           children: const [
             Text("Đã hoàn thành "),
             Icon(
-              Icons.done_outline,
+              Icons.done,
               color: Colors.green,
             )
           ],
