@@ -26,18 +26,21 @@ class TodoWidgets extends StatefulWidget {
 
 class _TodoWidgetsState extends State<TodoWidgets> {
   Color ColorTodo(Todo todo) {
-    if ((todo.estimatedCompletionTime.compareTo(DateTime.now()) < 0 && !todo.status)
-        &&(!DateUtils.isSameDay(todo.estimatedCompletionTime, DateTime.now()))) {
+    if ((todo.estimatedCompletionTime.compareTo(DateTime.now()) < 0 &&
+            !todo.status) &&
+        (!DateUtils.isSameDay(todo.estimatedCompletionTime, DateTime.now()))) {
       return Color.fromARGB(255, 255, 151, 151);
-
-    } else if((todo.estimatedCompletionTime.compareTo(DateTime.now()) < 0 && todo.status)){
+    } else if (((todo.estimatedCompletionTime.compareTo(DateTime.now()) < 0 &&
+            (!DateUtils.isSameDay(
+                todo.estimatedCompletionTime, todo.actualCompletionTime))) &&
+        todo.status)) {
       return Color.fromARGB(255, 255, 235, 81);
-    }
-    else if (((todo.estimatedCompletionTime.compareTo(todo.actualCompletionTime) > 0
-        || (!DateUtils.isSameDay(todo.estimatedCompletionTime, todo.actualCompletionTime))
-    )
-        && todo.status)
-        ) {
+    } else if (((todo.estimatedCompletionTime
+                    .compareTo(todo.actualCompletionTime) >
+                0 ||
+            (DateUtils.isSameDay(
+                todo.estimatedCompletionTime, todo.actualCompletionTime))) &&
+        todo.status)) {
       return Color.fromARGB(255, 166, 255, 188);
     }
     return Colors.white;
@@ -88,12 +91,21 @@ class _TodoWidgetsState extends State<TodoWidgets> {
                                 Text(widget.todo.status
                                     ? "Hoàn thành"
                                     : "Chưa hoàn thành"),
-                                Text(DateFormat('dd-MM-yyyy').format(widget.todo.estimatedCompletionTime),
+                                Text(
+                                  DateFormat('dd-MM-yyyy').format(
+                                      widget.todo.estimatedCompletionTime),
                                   style: TextStyle(
-                                    decoration: (widget.todo.estimatedCompletionTime.compareTo(DateTime.now())<0
-                                        &&(!DateUtils.isSameDay(widget.todo.estimatedCompletionTime, DateTime.now())))
-                                        ?TextDecoration.lineThrough:TextDecoration.none
-                                  ),
+                                      decoration: (widget.todo
+                                                      .estimatedCompletionTime
+                                                      .compareTo(
+                                                          DateTime.now()) <
+                                                  0 &&
+                                              (!DateUtils.isSameDay(
+                                                  widget.todo
+                                                      .estimatedCompletionTime,
+                                                  DateTime.now())))
+                                          ? TextDecoration.lineThrough
+                                          : TextDecoration.none),
                                 )
                               ],
                             )),
@@ -125,9 +137,7 @@ class _TodoWidgetsState extends State<TodoWidgets> {
                 {
                   Navigator.push(context, MaterialPageRoute<void>(
                     builder: (BuildContext context) {
-                      return DetailsTodo(
-                        todo: widget.todo
-                      );
+                      return DetailsTodo(todo: widget.todo);
                     },
                   ))
                 }
