@@ -68,6 +68,7 @@ class _TodoWidgetsState extends State<TodoWidgets> {
                             //apply padding to all four sides
                             child: Text(
                               widget.todo.title,
+                              maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18.0),
