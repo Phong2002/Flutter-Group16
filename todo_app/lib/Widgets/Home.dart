@@ -6,8 +6,6 @@ import 'package:todo_app/Widgets/CreateNewTodo.dart';
 import '../Provider/TodoListProvider.dart';
 import 'Todo.dart';
 
-
-
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
@@ -24,7 +22,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String TitleAppBar(String number) {
     String title = '';
-
     if (isSelect) {
       if (number == "0") {
         title = "Chọn mục";
@@ -37,7 +34,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return title;
   }
 
-  Future<void> _showMyDialog(String title,String content,Function callback) async {
+  Future<void> _showMyDialog(
+      String title, String content, Function callback) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -187,11 +185,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   tooltip: 'Xóa',
                   icon: const Icon(CupertinoIcons.trash),
                   onPressed: () {
-
-                    _showMyDialog("Xóa công việc"
-                        ,"Bạn có chắc chắn muốn xóa ${Provider.of<TodoListProvider>(context, listen: false).listSelected.length} mục không",
-                        ()=>{Provider.of<TodoListProvider>(context, listen: false).removeTodosSelected()}
-                    );
+                    _showMyDialog(
+                        "Xóa công việc",
+                        "Bạn có chắc chắn muốn xóa ${Provider.of<TodoListProvider>(context, listen: false).listSelected.length} mục không",
+                        () => {
+                              Provider.of<TodoListProvider>(context,
+                                      listen: false)
+                                  .removeTodosSelected()
+                            });
                   },
                 ),
                 IconButton(
