@@ -61,8 +61,10 @@ class _DetailsTodoState extends State<DetailsTodo> {
           ],
         ),
       );
-    }else if(((todo.estimatedCompletionTime.compareTo(DateTime.now()) < 0
-    &&(!DateUtils.isSameDay(todo.estimatedCompletionTime, todo.actualCompletionTime)))&& todo.status)) {
+    } else if (((todo.estimatedCompletionTime.compareTo(DateTime.now()) < 0 &&
+            (!DateUtils.isSameDay(
+                todo.estimatedCompletionTime, todo.actualCompletionTime))) &&
+        todo.status)) {
       return Container(
         child: Row(
           children: const [
@@ -75,11 +77,11 @@ class _DetailsTodoState extends State<DetailsTodo> {
         ),
       );
     } else if (((todo.estimatedCompletionTime
-        .compareTo(todo.actualCompletionTime) >
-        0 ||
-        (DateUtils.isSameDay(
-            todo.estimatedCompletionTime, todo.actualCompletionTime))) &&
-        todo.status))  {
+                    .compareTo(todo.actualCompletionTime) >
+                0 ||
+            (DateUtils.isSameDay(
+                todo.estimatedCompletionTime, todo.actualCompletionTime))) &&
+        todo.status)) {
       return Container(
         child: Row(
           children: const [
@@ -212,10 +214,7 @@ class _DetailsTodoState extends State<DetailsTodo> {
             Padding(
               padding: EdgeInsets.fromLTRB(0.0, 9.0, 0, 9.0),
               child: Row(
-                children: [
-                  Text("Trạng thái : "),
-                  statusTodo(widget.todo)
-                ],
+                children: [Text("Trạng thái : "), statusTodo(widget.todo)],
               ),
             ),
             Expanded(
