@@ -21,8 +21,9 @@ class _CompassWidgetState extends State<CompassWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(8),
-      padding: EdgeInsets.fromLTRB(20, 10, 10, 10),
+      height: 130,
+      margin: const EdgeInsets.all(8),
+      padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.grey.withOpacity(0.3),
@@ -30,7 +31,7 @@ class _CompassWidgetState extends State<CompassWidget> {
       child: Column(
         children: [
           Row(
-            children: [
+            children: const [
               Icon(
                 FontAwesomeIcons.wind,
                 size: 18,
@@ -52,25 +53,25 @@ class _CompassWidgetState extends State<CompassWidget> {
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Text(
                         CompassUltis.degreeToCompassDirection(widget.windDeg),
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 14,
+                            fontSize: 13,
                             fontWeight: FontWeight.bold)),
                   ),
                   Text("${widget.windSpeed.toInt()} km/h",
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 15,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold))
                 ],
               ),
               Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 5),
                   child: Stack(
                     children: [
                       Image.asset('assets/images/compass/compass.png',
-                          height: 80,
-                          color: Color.fromRGBO(241, 241, 241, 0.8)),
+                          height: 70,
+                          color: const Color.fromRGBO(241, 241, 241, 0.8)),
                       // Ảnh đè dưới
                       Transform.rotate(
                         angle: widget.windDeg * 3.1415926535 / 180,
@@ -78,8 +79,8 @@ class _CompassWidgetState extends State<CompassWidget> {
                         alignment: Alignment.center,
                         // Đổi độ sang radian
                         child: Image.asset('assets/images/compass/directionNeedle.png',
-                            height: 80,
-                            color: Color.fromRGBO(241, 241, 241, 0.8)),
+                            height: 70,
+                            color: const Color.fromRGBO(241, 241, 241, 0.8)),
                       ),
                     ],
                   )),
