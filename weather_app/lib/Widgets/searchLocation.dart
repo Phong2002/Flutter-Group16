@@ -69,7 +69,7 @@ class _SearchLocationState extends State<SearchLocation> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
-                child: Text(
+                child: const Text(
                   "Hủy",
                   style: TextStyle(
                       color: Color.fromARGB(255, 0, 79, 248), fontSize: 18),
@@ -82,18 +82,21 @@ class _SearchLocationState extends State<SearchLocation> {
           ],
         ),
       ),
-      SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  handleSearch();
-                },
-                child: Text("search")),
-            for (var location in locationList)
-              LocationWidget(location: location!, isExists: Provider.of<WeatherProvider>(context,listen: false).isExistsLocation(location),),
-          ],
+      Expanded(
+        flex: 1,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    handleSearch();
+                  },
+                  child: const Text("Tìm kiếm")),
+              for (var location in locationList)
+                LocationWidget(location: location!, isExists: Provider.of<WeatherProvider>(context,listen: true).isExistsLocation(location),),
+            ],
+          ),
         ),
       )
         ],
@@ -123,11 +126,11 @@ class _LocationWidgetState extends State<LocationWidget>{
       onTap: (){},
       borderRadius: BorderRadius.circular(50),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-        margin: EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+        margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: Color.fromRGBO(220, 220, 220, 0.5)),
+            color: const Color.fromRGBO(220, 220, 220, 0.5)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
