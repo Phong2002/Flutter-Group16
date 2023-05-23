@@ -41,6 +41,7 @@ class Weather {
       json['daily'].forEach((v) {
         daily!.add(new Daily.fromJson(v));
       });
+      print('------------------------------------id${daily![0].weather![0].id}------${daily![0].weather![0].description}');
     }
   }
 

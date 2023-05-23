@@ -7,7 +7,6 @@ class LocationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Quản lý thành phố"),centerTitle: true),
       body: Location(),
       backgroundColor: Colors.white,
       // This trailing comma makes auto-formatting nicer for build methods.

@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:weather_app/Infrastructure/requester.dart';
 import 'package:weather_app/Models/Location.dart';
-import 'dart:convert' as convert;
 
 import '../Models/Weather.dart';
 import '../Services/Location.dart';
@@ -13,25 +10,32 @@ import '../Services/Location.dart';
 class WeatherProvider extends ChangeNotifier {
   List<Location> locationList = [];
   List<Weather> weatherList = [];
-  String? uid = FirebaseAuth.instance.currentUser?.uid;
   bool isLoadData = true;
+  PageController pageController=PageController();
+
+  void changePage(int page){
+    pageController.jumpToPage(page);
+    notifyListeners();
+  }
 
   Future<void> addNewLocation(Location location) async {
     DatabaseReference ref =
-        FirebaseDatabase.instance.ref("$uid/${location.id}");
+        FirebaseDatabase.instance.ref("${FirebaseAuth.instance.currentUser?.uid}/${location.id}");
     await ref.set({
       "lat": location.lat,
       "lon": location.lon,
       "locationName": location.locationName
     });
     locationList.add(location);
+    notifyListeners();
     await Requester.getWeatherByLocation(location)
         .then((value) => {weatherList.add(value!), notifyListeners()});
     notifyListeners();
   }
 
+
   Future<void> removeLocation(String id) async {
-    DatabaseReference ref = FirebaseDatabase.instance.ref("$uid/$id");
+    DatabaseReference ref = FirebaseDatabase.instance.ref("${FirebaseAuth.instance.currentUser?.uid}/$id");
     await ref.remove();
     Location location = locationList.where((e) => e.id == id).first;
     Weather weather =
@@ -51,16 +55,15 @@ class WeatherProvider extends ChangeNotifier {
 
   Future<void> dataSync() async {
     locationList=[];
-    print("locationlist-length 1  ${locationList.length}");
     Location currentLocation = Location(
         '1',
         LocationService.currentLocation.latitude,
         LocationService.currentLocation.longitude,
-        LocationService.locationName[0].name);
+        LocationService.locationName[4].locality);
+
     locationList.add(currentLocation);
     DatabaseReference userLocationsRef =
-        FirebaseDatabase.instance.ref().child("$uid");
-    print("locationlist-length  2 ${locationList.length}");
+        FirebaseDatabase.instance.ref().child("${FirebaseAuth.instance.currentUser?.uid}");
     final event = await userLocationsRef.once();
     if (event.snapshot.children.isNotEmpty) {
       for (var child in event.snapshot.children) {

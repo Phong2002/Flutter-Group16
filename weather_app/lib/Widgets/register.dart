@@ -43,7 +43,7 @@ class _RegisterState extends State<Register> {
       );
       credential.user?.updateDisplayName(fullname.text);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Dang ky thanh cong')),
+        const SnackBar(content: Text('Đăng ký thành công')),
       );
     } on FirebaseAuthException catch (e) {
     if (e.code == 'email-already-in-use') {
@@ -232,16 +232,16 @@ class _RegisterState extends State<Register> {
                         )),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(15.0),
+                    padding: EdgeInsets.all(10.0),
                     child: Row(
                       children: [
                         const Text("Bạn đã có tài khoản ? ",
-                            style: TextStyle(fontSize: 18)),
+                            style: TextStyle(fontSize: 16)),
                         InkWell(
                             onTap: handleRegistrationPageLogin,
                             child: const Text(
                               "Đăng nhập ngay",
-                              style: TextStyle(fontSize: 18,
+                              style: TextStyle(fontSize: 16,
                                   color: const Color.fromARGB(255, 26, 155, 140),
                                   fontWeight: FontWeight.bold),
                             ))
