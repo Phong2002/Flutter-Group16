@@ -9,6 +9,9 @@
       <excludeFolder url="file://$MODULE_DIR$/calculator/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/calculator/build" />
       <excludeFolder url="file://$MODULE_DIR$/calculator/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/weather_app/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/weather_app/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/weather_app/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
