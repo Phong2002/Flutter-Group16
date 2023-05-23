@@ -5,7 +5,8 @@ import 'package:weather_app/Screens/DailyWeatherPage.dart';
 
 class DailyWeatherWidget extends StatefulWidget {
   final List<Daily> daily;
-  const DailyWeatherWidget({super.key, required this.daily});
+  final String currentLocation;
+  const DailyWeatherWidget({super.key, required this.daily, required this.currentLocation});
 
 
   @override
@@ -47,7 +48,7 @@ class _DailyWeatherWidgetState extends State<DailyWeatherWidget> {
                 children: [
                   Image(image: NetworkImage(
                       "https://openweathermap.org/img/wn/${widget.daily[i].weather![0].icon}.png")),
-                  Text("${DateFormat.EEEE().format(widget.daily[i].dt!)} ${widget.daily[i].weather![0].description}",
+                  Text("${DateFormat.EEEE('vi').format(widget.daily[i].dt!)} ${widget.daily[i].weather![0].description}",
                       style: const TextStyle(fontSize: 18, color: Colors.white))
                 ],
               ),
@@ -68,7 +69,7 @@ class _DailyWeatherWidgetState extends State<DailyWeatherWidget> {
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute<void>(
                   builder: (BuildContext context) {
-                    return const DailyWeatherPage();
+                    return  DailyWeatherPage(dailyList: widget.daily,title: "Dự báo 8 ngày tại ${widget.currentLocation}",);
                   },
                 ));
               },
