@@ -7,6 +7,7 @@ import 'package:weather_app/Widgets/currentWeatherWidget.dart';
 import 'package:weather_app/Widgets/dailyWeatherWidget.dart';
 import 'package:weather_app/Widgets/hourlyWeatherWidget.dart';
 import 'package:weather_app/Widgets/suntime.dart';
+import 'package:weather_app/utils/BackgroundUltis.dart';
 
 import 'compassWidget.dart';
 import 'otherParameters.dart';
@@ -19,7 +20,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  String urlBackgroud = 'assets/gif/clear-sky.gif';
   int currentPage = 0;
 
   @override
@@ -30,27 +30,17 @@ class _HomeState extends State<Home> {
     });
   }
 
-
-
   void syncDataFireBase() async {
     if (!mounted) {
       return;
-    } else{
+    } else {
       await context.read<WeatherProvider>().dataSync();
+      if (!mounted) {
+        return;
+      }
       await context.read<WeatherProvider>().getAllWeather();
     }
   }
-  
-
-  List<String> urlsBG = [
-    "assets/gif/clear-sky.gif",
-    "assets/images/login-background.gif"
-  ];
-
-  List<String> images = [
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTIZccfNPnqalhrWev-Xo7uBhkor57_rKbkw&usqp=CAU",
-    "https://wallpaperaccess.com/full/2637581.jpg"
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +49,24 @@ class _HomeState extends State<Home> {
       child: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage(urlBackgroud),
+                image: AssetImage(
+                    BackgroundUltis.backgroundImageFromWeatherConditionCodes(
+                        provider.weatherList.length > 0
+                            ? provider
+                                .weatherList![currentPage >
+                                        provider.weatherList.length - 1
+                                    ? provider.weatherList.length - 1
+                                    : currentPage]
+                                .current!
+                                .weather![0]
+                                .id!
+                            : 0,
+                        true)!),
                 fit: BoxFit.cover,
                 alignment: Alignment.center)),
         child: Consumer<WeatherProvider>(builder: (context, value, child) {
           final weatherList = value.weatherList;
-          if (value.isLoadData==true||value.weatherList.length==0){
+          if (value.isLoadData == true || value.weatherList.length == 0) {
             return Column(
               children: const [
                 WeatherAppBar(
@@ -76,30 +78,41 @@ class _HomeState extends State<Home> {
                 ),
               ],
             );
-          }
-          else {
+          } else {
             return Column(children: [
               WeatherAppBar(
-                  currentPage: currentPage>value.weatherList.length-1?value.weatherList.length-1:currentPage,
+                  currentPage: currentPage > value.weatherList.length - 1
+                      ? value.weatherList.length - 1
+                      : currentPage,
                   locationName: provider
-                          .weatherList[currentPage>value.weatherList.length-1?value.weatherList.length-1:currentPage].location?.locationName ??
+                          .weatherList[
+                              currentPage > value.weatherList.length - 1
+                                  ? value.weatherList.length - 1
+                                  : currentPage]
+                          .location
+                          ?.locationName ??
                       "",
                   totalPage: weatherList.length),
               Expanded(
                 child: PageView.builder(
+                    controller: value.pageController,
                     itemCount: weatherList.length,
                     pageSnapping: true,
                     onPageChanged: (page) {
                       setState(() {
                         currentPage = page;
-                        urlBackgroud = urlsBG[0];
                       });
                     },
                     itemBuilder: (context, pagePosition) {
-                      return WeatherWidget(weather: provider.weatherList[currentPage>value.weatherList.length-1?value.weatherList.length-1:currentPage],);
+                      return WeatherWidget(
+                        weather: provider.weatherList[
+                            currentPage > value.weatherList.length - 1
+                                ? value.weatherList.length - 1
+                                : currentPage],
+                      );
                     }),
               )
-          ]);
+            ]);
           }
         }),
       ),
@@ -107,17 +120,16 @@ class _HomeState extends State<Home> {
   }
 }
 
-class WeatherWidget extends StatefulWidget{
+class WeatherWidget extends StatefulWidget {
   final Weather weather;
 
   const WeatherWidget({super.key, required this.weather});
 
   @override
-  _WeatherWidgetState createState()=> _WeatherWidgetState();
-
+  _WeatherWidgetState createState() => _WeatherWidgetState();
 }
 
-class _WeatherWidgetState extends State<WeatherWidget>{
+class _WeatherWidgetState extends State<WeatherWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -127,12 +139,10 @@ class _WeatherWidgetState extends State<WeatherWidget>{
             children: [
               CurrentWeatherWidget(
                 current: widget.weather.current!,
-                daily:widget.weather.daily![0]!,
+                daily: widget.weather.daily![0]!,
               ),
-              DailyWeatherWidget(
-                  daily: widget.weather.daily!),
-              HourlyWeatherWidget(
-                  hourlyList:widget.weather.hourly!),
+              DailyWeatherWidget(daily: widget.weather.daily!,currentLocation: widget.weather.location!.locationName!),
+              HourlyWeatherWidget(hourlyList: widget.weather.hourly!),
               Row(
                 children: [
                   Expanded(
@@ -140,16 +150,12 @@ class _WeatherWidgetState extends State<WeatherWidget>{
                     child: Column(
                       children: [
                         CompassWidget(
-                          windSpeed: widget.weather.current!
-                              .windSpeed!,
-                          windDeg: widget.weather.current!
-                              .windDeg!,
+                          windSpeed: widget.weather.current!.windSpeed!,
+                          windDeg: widget.weather.current!.windDeg!,
                         ),
                         SuntimeWidget(
-                            sunrise: widget.weather.current!
-                                .sunrise!,
-                            sunset: widget.weather.current!
-                                .sunset!)
+                            sunrise: widget.weather.current!.sunrise!,
+                            sunset: widget.weather.current!.sunset!)
                       ],
                     ),
                   ),
@@ -165,6 +171,4 @@ class _WeatherWidgetState extends State<WeatherWidget>{
           ),
         ));
   }
-
 }
-
